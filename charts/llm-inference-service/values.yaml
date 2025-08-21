@@ -1,0 +1,22 @@
+model:
+  repo: mistralai
+  name: Mistral-7B-Instruct-v0.3
+
+servingRuntime:
+  name: vllm-runtime
+  modelFormat: vLLM
+  image:
+    repo: kserve/huggingfaceserver
+    tag: latest
+  port: 8080
+
+inferenceService:
+  resources:
+    limits:
+      cpu: "16"
+      memory: 32Gi
+    requests:
+      cpu: "12"
+      memory: 24Gi
+  minReplicas: 1
+  maxReplicas: 1

@@ -1,0 +1,8 @@
+global:
+  pattern: rag-llm-no-gpu
+  embeddingModel: sentence-transformers/all-mpnet-base-v2
+main:
+  clusterGroupName: prod
+  multiSourceConfig:
+    enabled: true
+    clusterGroupChartVersion: 0.9.*

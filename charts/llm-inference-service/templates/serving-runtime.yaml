@@ -1,0 +1,34 @@
+apiVersion: serving.kserve.io/v1alpha1
+kind: ServingRuntime
+metadata:
+  annotations:
+    openshift.io/display-name: {{ .Values.servingRuntime.name }}
+  labels:
+    opendatahub.io/dashboard: "true"
+  name: {{ .Values.servingRuntime.name }}
+spec:
+  annotations:
+    prometheus.io/path: /metrics
+    prometheus.io/port: "{{ .Values.servingRuntime.port }}"
+  containers:
+    - args:
+        - --port={{ .Values.servingRuntime.port }}
+        - --model_name={{ .Values.model.name }}
+        - --model_id={{ include "llm-inference-service.modelId" . }}
+      env:
+        - name: HF_HOME
+          value: /tmp/hf_home
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: huggingface-secret
+              key: token
+      image: {{ printf "%s:%s" .Values.servingRuntime.image.repo .Values.servingRuntime.image.tag }}
+      name: kserve-container
+      ports:
+        - containerPort: {{ .Values.servingRuntime.port }}
+          protocol: TCP
+  multiModel: false
+  supportedModelFormats:
+    - autoSelect: true
+      name: {{ .Values.servingRuntime.modelFormat }}

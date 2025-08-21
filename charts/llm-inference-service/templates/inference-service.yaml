@@ -1,0 +1,22 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  annotations:
+    openshift.io/display-name: vllm-cpu
+    serving.knative.openshift.io/enablePassthrough: 'true'
+    sidecar.istio.io/inject: 'true'
+    sidecar.istio.io/rewriteAppHTTPProbers: 'true'
+  name: vllm-cpu
+  labels:
+    opendatahub.io/dashboard: 'true'
+spec:
+  predictor:
+    maxReplicas: {{ .Values.inferenceService.maxReplicas }}
+    minReplicas: {{ .Values.inferenceService.minReplicas }}
+    model:
+      modelFormat:
+        name: {{ .Values.servingRuntime.modelFormat }}
+      name: ''
+      resources:
+        {{- toYaml .Values.inferenceService.resources | nindent 8}}
+      runtime: {{ .Values.servingRuntime.name }}

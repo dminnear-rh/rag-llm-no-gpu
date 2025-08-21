@@ -1,0 +1,17 @@
+{{- range $providerName, $providerConfig := .Values.providers }}
+{{- if $providerConfig.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $providerName }}-service
+spec:
+  selector:
+    app.kubernetes.io/name: {{ $providerName }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+  ports:
+    - protocol: TCP
+      port: {{ $providerConfig.service.port }}
+      targetPort: {{ $providerConfig.service.port }}
+{{- end }}
+{{- end }}
