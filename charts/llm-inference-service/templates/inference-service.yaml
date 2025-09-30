@@ -2,21 +2,70 @@ apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
   annotations:
-    openshift.io/display-name: vllm-cpu
+    openshift.io/display-name: {{ .Values.inferenceService.name }}
     serving.knative.openshift.io/enablePassthrough: 'true'
     sidecar.istio.io/inject: 'true'
     sidecar.istio.io/rewriteAppHTTPProbers: 'true'
-  name: vllm-cpu
+  name: {{ .Values.inferenceService.name }}
   labels:
     opendatahub.io/dashboard: 'true'
 spec:
   predictor:
     maxReplicas: {{ .Values.inferenceService.maxReplicas }}
     minReplicas: {{ .Values.inferenceService.minReplicas }}
+    {{- with .Values.inferenceService.affinity }}
+    affinity:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    {{- with .Values.inferenceService.tolerations }}
+    tolerations:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+    initContainers:
+      - name: model-downloader
+        image: {{ .Values.model.downloader.image }}
+        env:
+          - name: HF_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: huggingface-secret
+                key: token
+        volumeMounts:
+          - mountPath: {{ .Values.model.storage.mountPath }}
+            name: model-storage
+        command:
+          - "sh"
+          - "-c"
+          - |
+            REPO_ID="{{ .Values.model.repository }}"
+            FILENAME="{{ .Values.model.filename }}"
+            MOUNT_PATH="{{ .Values.model.storage.mountPath }}"
+
+            # Determine what to check for: the specific file or a common repo file.
+            CHECK_TARGET="$MOUNT_PATH/config.json"
+            if [ -n "$FILENAME" ]; then
+              CHECK_TARGET="$MOUNT_PATH/$FILENAME"
+            fi
+
+            # Only download if the target doesn't already exist.
+            if [ -e "$CHECK_TARGET" ]; then
+              echo "Model content already detected. Skipping download."
+            else
+              if [ -n "$FILENAME" ]; then
+                echo "Starting download of single file: $FILENAME from repo $REPO_ID..."
+              else
+                echo "Starting download of entire repository: $REPO_ID..."
+              fi
+
+              pip install huggingface_hub[cli]
+              huggingface-cli download "$REPO_ID" "$FILENAME" --local-dir "$MOUNT_PATH" --local-dir-use-symlinks False
+              echo "Download complete."
+            fi
     model:
       modelFormat:
         name: {{ .Values.servingRuntime.modelFormat }}
-      name: ''
+      {{- with .Values.inferenceService.resources }}
       resources:
-        {{- toYaml .Values.inferenceService.resources | nindent 8}}
+        {{- toYaml . | nindent 8}}
+      {{- end }}
       runtime: {{ .Values.servingRuntime.name }}

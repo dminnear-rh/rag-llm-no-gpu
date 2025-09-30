@@ -1,6 +1,6 @@
 apiVersion: v2
 name: rag-db
-description: A Helm chart for Kubernetes
+description: Vector database services and document embedding for RAG pipeline
 type: application
 version: 0.1.0
 appVersion: "0.1.0"

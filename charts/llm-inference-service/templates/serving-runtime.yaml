@@ -1,20 +1,26 @@
 apiVersion: serving.kserve.io/v1alpha1
 kind: ServingRuntime
 metadata:
+  name: {{ .Values.servingRuntime.name }}
   annotations:
     openshift.io/display-name: {{ .Values.servingRuntime.name }}
   labels:
     opendatahub.io/dashboard: "true"
-  name: {{ .Values.servingRuntime.name }}
 spec:
   annotations:
     prometheus.io/path: /metrics
-    prometheus.io/port: "{{ .Values.servingRuntime.port }}"
+    prometheus.io/port: {{ .Values.servingRuntime.port | quote}}
   containers:
-    - args:
-        - --port={{ .Values.servingRuntime.port }}
-        - --model_name={{ .Values.model.name }}
-        - --model_id={{ include "llm-inference-service.modelId" . }}
+    - name: kserve-container
+      image: {{ .Values.servingRuntime.image }}
+      args:
+        - --host
+        - 0.0.0.0
+        - --port
+        - {{ .Values.servingRuntime.port | quote}}
+      {{- with .Values.servingRuntime.args }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       env:
         - name: HF_HOME
           value: /tmp/hf_home
@@ -23,12 +29,16 @@ spec:
             secretKeyRef:
               name: huggingface-secret
               key: token
-      image: {{ printf "%s:%s" .Values.servingRuntime.image.repo .Values.servingRuntime.image.tag }}
-      name: kserve-container
       ports:
         - containerPort: {{ .Values.servingRuntime.port }}
           protocol: TCP
+      volumeMounts:
+        - name: model-storage
+          mountPath: {{ .Values.model.storage.mountPath }}
   multiModel: false
   supportedModelFormats:
     - autoSelect: true
       name: {{ .Values.servingRuntime.modelFormat }}
+  volumes:
+    - name: model-storage
+      emptyDir: {}

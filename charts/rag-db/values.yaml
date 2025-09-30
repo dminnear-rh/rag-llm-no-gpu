@@ -4,7 +4,7 @@ global:
 providers:
   qdrant:
     enabled:
-      false
+      true
     deployment:
       image: qdrant/qdrant:latest
     service:
@@ -150,7 +150,7 @@ providers:
 
   mssql:
     enabled:
-      true
+      false
     deployment:
       image: mcr.microsoft.com/mssql/rhel/server:2025-latest
       env:
