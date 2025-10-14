@@ -12,10 +12,6 @@ clusterGroup:
         operatorGroup: true
         targetNamespaces: []
 
-  projects:
-    - rag-llm-no-gpu
-    - prod
-
   subscriptions:
     serverless:
       name: serverless-operator
@@ -28,38 +24,33 @@ clusterGroup:
       namespace: redhat-ods-operator
 
   applications:
-    # "System" configuration
     golang-external-secrets:
       name: golang-external-secrets
       namespace: golang-external-secrets
-      project: prod
       chart: golang-external-secrets
       chartVersion: 0.1.*
     vault:
       name: vault
       namespace: vault
-      project: prod
       chart: hashicorp-vault
       chartVersion: 0.1.*
     openshift-ai:
       name: openshift-ai
       namespace: redhat-ods-operator
-      project: prod
       path: charts/openshift-ai
 
     # For customizing the RAG-LLM deployment
     rag-llm-frontend: # The user-facing chatbot/UI/app that talks to the RAG DB and LLM
       name: rag-llm-frontend
       namespace: rag-llm-no-gpu
-      project: rag-llm-no-gpu
       path: charts/rag-llm-frontend
-    rag-db: # The RAG DB storing vector-embedded content
-      name: rag-db
+    vector-db: # The RAG DB storing vector-embedded content
+      name: vector-db
       namespace: rag-llm-no-gpu
-      project: rag-llm-no-gpu
-      path: charts/rag-db
+      chart: vector-db
+      chartVersion: 0.1.*
     llm-inference-service: # The RHOAI inference service that serves the LLM
       name: llm-inference-service
       namespace: rag-llm-no-gpu
-      project: rag-llm-no-gpu
-      path: charts/llm-inference-service
+      chart: llm-inference-service
+      chartVersion: 0.1.*

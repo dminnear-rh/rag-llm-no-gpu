@@ -1,6 +1,0 @@
-apiVersion: v2
-name: llm-inference-service
-description: Deploys a vLLM-based large language model inference service using KServe
-type: application
-version: 0.1.0
-appVersion: "0.1.0"
