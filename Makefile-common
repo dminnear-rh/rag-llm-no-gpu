@@ -20,6 +20,10 @@ operator-deploy operator-upgrade: ## Installs/updates the pattern on a cluster (
 .PHONY: install
 install: pattern-install ## Installs the pattern onto a cluster (Loads secrets as well if configured)
 
+.PHONY: uninstall ## Prints a notice that patterns cannot currently be uninstalled
+uninstall:
+	@echo "Uninstall is not possible at the moment so this target is empty. We are working to implement it as well as we can."
+
 .PHONY: pattern-install
 pattern-install:
 	@$(ANSIBLE_RUN) rhvp.cluster_utils.install
