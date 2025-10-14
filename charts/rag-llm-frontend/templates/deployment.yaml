@@ -42,7 +42,7 @@ spec:
             - name: PORT
               value: {{ .Values.service.port | quote }}
             - name: LLM_BASE_URL
-              value: http://vllm-cpu-predictor
+              value: http://cpu-inference-service-predictor
             - name: EMBEDDING_MODEL
               value: {{ .Values.global.embeddingModel }}
           {{- with .Values.env }}
