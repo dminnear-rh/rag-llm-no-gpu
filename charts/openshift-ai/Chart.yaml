@@ -1,0 +1,6 @@
+apiVersion: v2
+name: openshift-ai
+description: Configures Red Hat OpenShift AI for KServe model serving with Istio service mesh
+type: application
+version: 0.1.0
+appVersion: "0.1.0"

@@ -1,0 +1,56 @@
+clusterGroup:
+  name: prod
+
+  namespaces:
+    - rag-llm-no-gpu
+    - vault
+    - golang-external-secrets
+    - redhat-ods-operator:
+        operatorGroup: true
+        targetNamespaces: []
+    - openshift-serverless:
+        operatorGroup: true
+        targetNamespaces: []
+
+  subscriptions:
+    serverless:
+      name: serverless-operator
+      namespace: openshift-serverless
+    servicemesh:
+      name: servicemeshoperator
+      namespace: openshift-operators
+    rhoai:
+      name: rhods-operator
+      namespace: redhat-ods-operator
+
+  applications:
+    golang-external-secrets:
+      name: golang-external-secrets
+      namespace: golang-external-secrets
+      chart: golang-external-secrets
+      chartVersion: 0.1.*
+    vault:
+      name: vault
+      namespace: vault
+      chart: hashicorp-vault
+      chartVersion: 0.1.*
+    openshift-ai:
+      name: openshift-ai
+      namespace: redhat-ods-operator
+      path: charts/openshift-ai
+
+    # For customizing the RAG-LLM deployment
+    rag-llm-frontend: # The user-facing chatbot/UI/app that talks to the RAG DB and LLM
+      name: rag-llm-frontend
+      namespace: rag-llm-no-gpu
+      path: charts/rag-llm-frontend
+    vector-db: # The RAG DB storing vector-embedded content
+      name: vector-db
+      namespace: rag-llm-no-gpu
+      chart: vector-db
+      chartVersion: 0.1.*
+    llm-inference-service: # The RHOAI inference service that serves the LLM
+      name: llm-inference-service
+      namespace: rag-llm-no-gpu
+      chart: llm-inference-service
+      chartVersion: 0.1.*
