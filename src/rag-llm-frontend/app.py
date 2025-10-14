@@ -22,7 +22,7 @@ GRADIO_PORT = int(os.getenv("GRADIO_PORT", "7860"))
 # Model helpers (lazy)
 # -----------------------------------------------------------------------------
 
-LLM_MODELS_ENDPOINT = LLM_BASE_URL / "openai/v1/models"
+LLM_MODELS_ENDPOINT = LLM_BASE_URL / "models"
 
 
 def fetch_models() -> Tuple[List[str], Optional[str]]:
@@ -57,7 +57,7 @@ def fetch_models() -> Tuple[List[str], Optional[str]]:
 # Streaming
 # -----------------------------------------------------------------------------
 
-LLM_CHAT_COMPLETIONS_ENDPOINT = LLM_BASE_URL / "openai/v1/chat/completions"
+LLM_CHAT_COMPLETIONS_ENDPOINT = LLM_BASE_URL / "chat/completions"
 
 
 def stream_chat(
