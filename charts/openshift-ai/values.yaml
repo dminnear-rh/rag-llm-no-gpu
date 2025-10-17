@@ -1,9 +1,0 @@
-# KServe configuration options
-kserve:
-  # Default deployment mode for KServe models
-  # Options: "Serverless" (advanced mode) or "RawDeployment" (standard mode)
-  defaultDeploymentMode: RawDeployment
-
-  # Service configuration for raw deployments
-  # Options: "Headed" (normal load balancing) or "Headless" (client-side load balancing)
-  rawDeploymentServiceConfig: Headed
