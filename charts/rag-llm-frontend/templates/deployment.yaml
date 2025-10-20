@@ -41,10 +41,6 @@ spec:
           env:
             - name: PORT
               value: {{ .Values.service.port | quote }}
-            - name: LLM_BASE_URL
-              value: http://cpu-inference-service-predictor/v1
-            - name: EMBEDDING_MODEL
-              value: {{ .Values.global.embeddingModel }}
           {{- with .Values.env }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
