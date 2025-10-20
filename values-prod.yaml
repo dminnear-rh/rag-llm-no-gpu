@@ -47,15 +47,13 @@ clusterGroup:
       repoURL: https://github.com/dminnear-rh/vector-db-chart
       chartVersion: add-pvcs
       path: .
-      overrides:
-        - name: qdrant.enabled
-          value: true
+      extraValueFiles:
+        - /overrides/vector-db-values.yaml
 
     llm-inference-service:
       name: llm-inference-service
       namespace: rag-llm-no-gpu
       chart: llm-inference-service
       chartVersion: 0.2.*
-      overrides:
-        - name: dsc.initialize
-          value: true
+      extraValueFiles:
+        - /overrides/llm-inference-server-values.yaml
