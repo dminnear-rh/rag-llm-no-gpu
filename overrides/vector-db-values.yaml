@@ -1,5 +1,5 @@
 providers:
-  mssql:
+  qdrant:
     enabled: true
 
 vectorEmbedJob:
