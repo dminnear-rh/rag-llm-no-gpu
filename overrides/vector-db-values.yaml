@@ -1,5 +1,5 @@
 providers:
-  pgvector:
+  elastic:
     enabled: true
 
 vectorEmbedJob:
