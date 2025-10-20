@@ -48,7 +48,7 @@ clusterGroup:
       chartVersion: add-pvcs
       path: .
       extraValueFiles:
-        - overrides/vector-db-values.yaml
+        - $patternref/overrides/vector-db-values.yaml
 
     llm-inference-service:
       name: llm-inference-service
@@ -56,4 +56,4 @@ clusterGroup:
       chart: llm-inference-service
       chartVersion: 0.2.*
       extraValueFiles:
-        - overrides/llm-inference-service-values.yaml
+        - $patternref/overrides/llm-inference-service-values.yaml
