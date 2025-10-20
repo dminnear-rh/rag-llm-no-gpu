@@ -1,5 +1,5 @@
 providers:
-  elastic:
+  mssql:
     enabled: true
 
 vectorEmbedJob:
