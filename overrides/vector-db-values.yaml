@@ -1,5 +1,5 @@
 providers:
-  qdrant:
+  redis:
     enabled: true
 
 vectorEmbedJob:
