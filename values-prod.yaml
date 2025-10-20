@@ -46,7 +46,7 @@ clusterGroup:
       namespace: rag-llm-no-gpu
       repoURL: https://github.com/dminnear-rh/vector-db-chart
       chartVersion: add-pvcs
-      path: .
+      path: /
       extraValueFiles:
         - $patternref/overrides/vector-db-values.yaml
 

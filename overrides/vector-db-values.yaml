@@ -1,5 +1,6 @@
-qdrant:
-  enabled: true
+providers:
+  qdrant:
+    enabled: true
 
 vectorEmbedJob:
   repoSources:
