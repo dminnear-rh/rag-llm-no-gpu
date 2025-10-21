@@ -1,6 +1,8 @@
 providers:
   qdrant:
     enabled: true
+  mssql:
+    enabled: true
 
 vectorEmbedJob:
   repoSources:
