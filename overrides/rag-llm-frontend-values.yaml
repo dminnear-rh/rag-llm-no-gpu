@@ -8,7 +8,7 @@ env:
   - name: DB_PROVIDERS
     valueFrom:
       secretKeyRef:
-        name: rag-llm-frontend-secret
+        name: rag-llm-frontend-rag-llm-demo-ui
         key: db_providers
 
 dbProvidersSecret:
