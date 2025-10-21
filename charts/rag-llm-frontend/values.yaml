@@ -34,7 +34,7 @@ dbProvidersSecret:
         Server=mssql-service,1433;
         Database=embeddings;
         UID=sa;
-        PWD={{ .mssql-sapassword }};
+        PWD={{ .mssql_sapassword }};
         TrustServerCertificate=yes;
         Encrypt=no;
       embedding_model: sentence-transformers/all-mpnet-base-v2
