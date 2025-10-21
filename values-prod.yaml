@@ -39,8 +39,8 @@ clusterGroup:
     rag-llm-frontend:
       name: rag-llm-frontend
       namespace: rag-llm-no-gpu
-      repoURL: https://github.com/dminnear-rh/rag-llm-demo-ui
-      chartVersion: add-route-console-link
+      repoURL: https://github.com/validatedpatterns-sandbox/rag-llm-demo-ui
+      chartVersion: main
       path: helm
       extraValueFiles:
         - $patternref/overrides/rag-llm-frontend-values.yaml
