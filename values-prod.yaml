@@ -12,16 +12,16 @@ clusterGroup:
         operatorGroup: true
         targetNamespaces: []
 
-  subscriptions:
-    serverless:
-      name: serverless-operator
-      namespace: openshift-serverless
-    servicemesh:
-      name: servicemeshoperator
-      namespace: openshift-operators
-    rhoai:
-      name: rhods-operator
-      namespace: redhat-ods-operator
+  subscriptions: {}
+    # serverless:
+    #   name: serverless-operator
+    #   namespace: openshift-serverless
+    # servicemesh:
+    #   name: servicemeshoperator
+    #   namespace: openshift-operators
+    # rhoai:
+    #   name: rhods-operator
+    #   namespace: redhat-ods-operator
 
   applications: {}
     # golang-external-secrets:
