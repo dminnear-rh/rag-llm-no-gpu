@@ -11,6 +11,9 @@ clusterGroup:
     - openshift-serverless:
         operatorGroup: true
         targetNamespaces: []
+    - servicemesh:
+        operatorGroup: true
+        targetNamespaces: []
 
   subscriptions:
     serverless:
@@ -18,7 +21,7 @@ clusterGroup:
       namespace: openshift-serverless
     servicemesh:
       name: servicemeshoperator
-      namespace: openshift-operators
+      namespace: servicemesh
     rhoai:
       name: rhods-operator
       namespace: redhat-ods-operator
